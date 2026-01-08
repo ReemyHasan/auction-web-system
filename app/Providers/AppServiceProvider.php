@@ -2,25 +2,25 @@
 
 namespace App\Providers;
 
-use App\Models\Auction;
-use App\Policies\AuctionPolicy;
-use Carbon\Traits\Macro;
-use Illuminate\Support\Facades\Gate;
+use Illuminate\Support\Facades\Response;
 use Illuminate\Support\ServiceProvider;
-
 class AppServiceProvider extends ServiceProvider
 {
 
-    public function register(): void
-    {
-        
-    }
+    public function register(): void {}
 
     /**
      * Bootstrap any application services.
      */
     public function boot(): void
     {
-        // Gate::policy(Auction::class, AuctionPolicy::class);
+
+        Response::macro('format', function ($data = null, $message = 'Success', $code = 200, $success = true) {
+            return response()->json([
+                'success' => $success,
+                'message' => __($message),
+                'data' => $data,
+            ], $code);
+        });
     }
 }

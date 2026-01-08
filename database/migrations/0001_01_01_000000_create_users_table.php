@@ -18,7 +18,9 @@ return new class extends Migration
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
             $table->string('wallet_address')->nullable()->unique();
-            $table->enum('role', ['USER', 'ADMIN']);
+            $table->enum('role', ['USER', 'ADMIN'])->default('USER');
+            $table->boolean('is_active')->default(true);
+
             $table->rememberToken();
             $table->timestamps();
         });
