@@ -18,7 +18,8 @@ class isAdminMiddleware
     {
         $user = auth()->user();
 
-        if ($user->role == UserRole::ADMIN)
+        // dd($user->role, UserRole::ADMIN);
+        if ($user->role == UserRole::ADMIN->value)
             return $next($request);
 
         return response()->format(null, "messages.forbidden", 403, false);

@@ -11,6 +11,7 @@ use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Validation\ValidationException;
+use Symfony\Component\HttpFoundation\Exception\BadRequestException;
 use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
 use Symfony\Component\HttpKernel\Exception\HttpException;
 use Symfony\Component\HttpKernel\Exception\MethodNotAllowedHttpException;
@@ -34,9 +35,17 @@ class ApiExceptionHandler
         QueryException::class => 'handleQueryException',
         UniqueConstraintViolationException::class => 'handleUniqueConstraintViolationException',
         ForbiddenException::class => 'handleForbiddenException',
+        BadRequestException::class => 'handleBadRequestException',
 
     ];
 
+
+    public function handleBadRequestException(
+        BadRequestException $e,
+        Request $request
+    ): JsonResponse {
+        return response()->format(null, $e->getMessage(), 400, false);
+    }
     /**
      * Handle authentication exceptions
      */
@@ -64,7 +73,7 @@ class ApiExceptionHandler
         return response()->format(null, $e->getMessage(), 403, false);
     }
 
-    
+
 
     /**
      * Handle authorization exceptions

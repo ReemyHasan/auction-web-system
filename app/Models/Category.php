@@ -27,4 +27,8 @@ class Category extends Model
     {
         return $this->hasMany(Auction::class);
     }
+    public function stats()
+    {
+        return $this->hasOne(CategoryAuctionStats::class, 'id', 'id');
+    }
 }
